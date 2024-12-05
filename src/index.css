@@ -1,0 +1,130 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: 255 215 0;
+    --color-secondary: 0 0 0;
+    --color-accent: 255 87 240;
+    
+    /* Safe area insets */
+    --sat: env(safe-area-inset-top);
+    --sar: env(safe-area-inset-right);
+    --sab: env(safe-area-inset-bottom);
+    --sal: env(safe-area-inset-left);
+
+    /* Use dynamic viewport height */
+    --vh: 1vh;
+  }
+
+  /* Ensure the root element takes full height */
+  html, body, #root {
+    @apply min-h-screen bg-black;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Debug outline in development */
+  #root {
+    @apply text-white;
+  }
+
+  @media (min-width: 640px) {
+    #root {
+      max-width: 100%;
+      margin: 0 auto;
+    }
+  }
+}
+
+/* Mobile optimizations */
+body {
+  @apply bg-black text-white overscroll-none;
+  background: radial-gradient(circle at center, rgb(20, 20, 20) 0%, rgb(0, 0, 0) 100%);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  height: 100vh; /* Fallback */
+  height: calc(var(--vh, 1vh) * 100);
+  margin: 0;
+  padding: 0;
+}
+
+/* Safe area utilities */
+.safe-area-top {
+  padding-top: max(env(safe-area-inset-top), 16px);
+}
+
+.safe-area-bottom {
+  padding-bottom: max(env(safe-area-inset-bottom), 16px);
+}
+
+/* Hide scrollbars but keep functionality */
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Glass panel effect */
+.glass-panel {
+  @apply backdrop-blur-md bg-black/30 rounded-xl border border-white/10;
+  box-shadow: 0 8px 32px 0 rgba(255, 215, 0, 0.1);
+}
+
+/* Text gradient */
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500;
+}
+
+/* Floating animation */
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Optimize touch targets for mobile */
+button, a, input, select {
+  @apply touch-manipulation;
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Active state for buttons */
+.active\:scale-98:active {
+  transform: scale(0.98);
+}
+
+/* Prevent pull-to-refresh on mobile */
+@supports (-webkit-touch-callout: none) {
+  body {
+    overscroll-behavior-y: none;
+  }
+}
+
+/* Prevent text selection */
+* {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Allow text selection in specific elements */
+.selectable {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* Development mode indicator */
+.dev-mode-indicator {
+  @apply fixed top-0 left-0 bg-yellow-400 text-black px-2 py-1 text-xs z-50;
+}
